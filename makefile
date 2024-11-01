@@ -7,7 +7,7 @@ CC_CFLAGS=-O3 -mtune=native -I./hdr
 # Link flags
 CC_LDFLAGS= -lstdc++ -I./hdr
 # Object (source) files
-OBJECTS= obj/main.o obj/function.o
+OBJECTS= obj/main.o obj/calculate_satellite_distance.o obj/calculate_beam_spread.o obj/calculate_beam_intensity.o
 # Name of generated executable
 EXECUTABLE=exe
 # Compilation stuff - do not edit
