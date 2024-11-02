@@ -7,7 +7,8 @@
 int main(){
 
 	// Defines the parameters we will calculate
-	float satellite_distance, beam_spread, beam_intensity;
+	float beam_spread, beam_intensity;
+	int satellite_distance;
 
 	// Defines our constants for the system
 	int radius_earth = 6371000;
