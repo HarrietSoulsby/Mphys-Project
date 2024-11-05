@@ -22,12 +22,14 @@ int main(){
 	// Calculate the effects of turbulence on the laser
 	satellite_distance = calculate_satellite_distance(angle, radius_earth, radius_LEO); 
 	integrated_turbulence = integrate_turbulence(angle, radius_earth, satellite_distance);
-	beam_spread = calculate_beam_spread(satellite_distance, integrated_turbulence);
-	beam_intensity = calculate_beam_intensity(satellite_distance, integrated_turbulence);
+//	beam_spread = calculate_beam_spread(satellite_distance, integrated_turbulence);
+//	beam_intensity = calculate_beam_intensity(satellite_distance, integrated_turbulence);
+//
+//	// Output the calculated results
+//	std::cout << "Beam spread: " << beam_spread << std::endl;
+//	std::cout << "Beam intensity: " << beam_intensity << std::endl;
 
-	// Output the calculated results
-	std::cout << "Beam spread: " << beam_spread << std::endl;
-	std::cout << "Beam intensity: " << beam_intensity << std::endl;
+	std::cout << integrated_turbulence << std::endl;
 
 	// End the program
 	return 0;

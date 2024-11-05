@@ -15,7 +15,7 @@ int calculate_height(float angle, int radius_earth, int distance){
 	earth_distance = std::sqrt((earth_x*earth_x) + (earth_y*earth_y));
 
 	// Subtracts Earth's radius from the position to obtain height above sea level
-	height = earth_distance - earth_radius;
+	height = earth_distance - radius_earth;
 
 	// Returns the height above see level and ends the function
 	return height;
