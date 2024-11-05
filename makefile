@@ -3,7 +3,7 @@ CC=g++
 # Libraries
 LIBS=-lstdc++ -lgsl -lgslcblas
 # Compilation flags
-CC_CFLAGS=-O3 -mtune=native -I./hdr
+CC_CFLAGS=-O3 -mtune=native -I./hdr -std=c++20
 # Link flags
 CC_LDFLAGS= -lstdc++ -I./hdr
 # Object (source) files

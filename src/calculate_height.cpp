@@ -2,7 +2,7 @@
 #include <cmath>
 
 // Begin defining the function
-int calculate_height(float angle, int radius_earth, int distance){
+int calculate_height(double angle, int radius_earth, int distance){
 
 	// Define the variables that will be used in the calculation
 	int height, earth_x, earth_y, earth_distance;
