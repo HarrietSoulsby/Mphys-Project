@@ -4,6 +4,7 @@
 #include <cmath>
 #include <numbers>
 #include <fstream>
+#include <iomanip>
 
 // Defines main
 int main(){
@@ -21,6 +22,7 @@ int main(){
 	double angle, angle_degrees;
 
 	std::ofstream dataFile("data");
+	dataFile << std::fixed << std::setprecision(20);
 
 	for(double i = 30; i <= 150; i+=0.01){
 
