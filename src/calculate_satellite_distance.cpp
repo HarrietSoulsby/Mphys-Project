@@ -3,12 +3,10 @@
 #include <numbers>
 
 // Begin defining the function
-int calculate_satellite_distance(double angle, int radius_earth, int radius_LEO){
+double calculate_satellite_distance(double angle, double radius_earth, double radius_LEO){
 
 	// Defines the variables used in the calculation
-	int satellite_distance, earth_frame_distance;
-	float alice_x, alice_y;
-	double earth_frame_angle;
+	double satellite_distance, earth_frame_distance, alice_x, alice_y, earth_frame_angle;
 
 	// Calculates the polar coordinates of the satellite in the frame with origin at the centre of the Earth
 	earth_frame_distance = radius_earth + radius_LEO;

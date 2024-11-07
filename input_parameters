@@ -1,6 +1,6 @@
 // The parameters used for the laser and the atmosphere in the simulation - change as neccesary
-diameter_laser	0.1
-wavelength_laser	700e-9
+diameter_laser	10
+wavelength_laser	400e-9
 inner_scale_size	0.005
-satellite_altitude	800000
+satellite_altitude	100000
 

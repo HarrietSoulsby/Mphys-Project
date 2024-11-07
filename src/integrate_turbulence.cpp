@@ -6,23 +6,26 @@
 
 // Creates a struct to store the parameters used in integration
 struct Params{
-	int D;
-	int R;
+	double D;
+	double R;
 	double theta;
 };
 
 // Defines the model for calculating the refractive index structure constant
-double calculate_Cn2(double x, double angle, int radius_earth, int satellite_distance){
+double calculate_Cn2(double x, double angle, double radius_earth, double satellite_distance){
 
 	// Calls the function to calculate the height above sea level
-	int H = calculate_height(angle, radius_earth, satellite_distance);
+	double H = calculate_height(angle, radius_earth, x);
 	// Defines the value of the refractive index structure constant at sea level
-	double Cn0 = 1e-13;
+	double Cn0 = 1.5e-14;
 	// Initialises the variable for storing the answer
-	double Cn2;
+	double temp1, temp2, Cn2;
 
 	// Calculates the refractive index structure constant and returns the value
-	Cn2 = Cn0 * std::exp(-x/H);
+	temp1 = H/1000000.0;
+	temp2 = (288.0 - (0.0065*H*0.001)) / 288.0;
+	Cn2 = (Cn0 / (temp1*temp1*std::sqrt(temp1))) / (temp2*std::sqrt(temp2));
+	std::cout << x << " " << Cn2 << std::endl;
 	return Cn2;
 }
 
@@ -32,9 +35,9 @@ double integrand(double x, void *p){
 	// Defines the variables being used, extracting the constants from the struct
 	double output;
 	Params *params = (Params *)p;
-	int D = params->D;
-	int R = params->R;
-	float theta = params->theta;
+	double D = params->D;
+	double R = params->R;
+	double theta = params->theta;
 
 	// Performs the calculations that define the integrand and returns the result
 	double temp = 1 - (x / D);
@@ -43,14 +46,14 @@ double integrand(double x, void *p){
 }
 
 // Defines the main function for integrating over the turbulence
-double integrate_turbulence(double angle, int radius_earth, int satellite_distance){
+double integrate_turbulence(double angle, double radius_earth, double satellite_distance){
 
 	// Defines the variables to be used in the integration
 	double integrated_turbulence, error;
 	Params params = {satellite_distance, radius_earth, angle};
 	
 	// Sets up the integration workspace
-	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(10000);
+	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(1000000);
 	gsl_function F;
 
 	// Defines the equation and parameters to be used in the integration
@@ -58,7 +61,7 @@ double integrate_turbulence(double angle, int radius_earth, int satellite_distan
 	F.params = &params;
 
 	// Integrates the function
-	gsl_integration_qags(&F, 0, satellite_distance, 0, 1e-8, 10000, workspace, &integrated_turbulence, &error);
+	gsl_integration_qag(&F, 1, satellite_distance, 1e-4, 1e-4, 1000000, 6, workspace, &integrated_turbulence, &error);
 	gsl_integration_workspace_free(workspace);
 
 	// Divides the result by the neccesary prefactor

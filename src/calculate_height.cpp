@@ -2,10 +2,10 @@
 #include <cmath>
 
 // Begin defining the function
-int calculate_height(double angle, int radius_earth, int distance){
+double calculate_height(double angle, double radius_earth, double distance){
 
 	// Define the variables that will be used in the calculation
-	int height, earth_x, earth_y, earth_distance;
+	double height, earth_x, earth_y, earth_distance;
 
 	// Converts a position in polar coordinates in Alice's frame into cartesian coordinates in the Earth's core's frame
 	earth_x = distance * std::cos(angle);

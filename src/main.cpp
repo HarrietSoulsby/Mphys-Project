@@ -12,12 +12,11 @@ int main(){
 
 	// Defines the parameters we will calculate
 	float beam_spread, beam_intensity;
-	double integrated_turbulence;
-	int satellite_distance;
+	double integrated_turbulence, satellite_distance;
 
 	// Initialises the variables to store the user defined parameters for the system
-	int satellite_altitude;
-	float diameter_laser, wavelength_laser, inner_scale_size;
+	double satellite_altitude, diameter_laser, wavelength_laser;
+	float inner_scale_size;
 
 	// Sets up a stream for importing parameters from an input file
 	std::ifstream parameterFile;
@@ -33,12 +32,12 @@ int main(){
 	parameterFile.close();
 
 	// Defines our constants for the system
-	int radius_earth = 6371000;
-	int radius_LEO = radius_earth + satellite_altitude;
+	double radius_earth = 6371000;
+	double radius_LEO = radius_earth + satellite_altitude;
 
 	// Calculates the parameters for the laser
-	float wavenumber_laser = (2 * std::numbers::pi) / wavelength_laser;
-	float curvature_laser = diameter_laser / wavelength_laser;
+	double wavenumber_laser = (2 * std::numbers::pi) / wavelength_laser;
+	double curvature_laser = 100;
 
 	// Defines the angle parameters we will er
 	double angle, angle_degrees;
