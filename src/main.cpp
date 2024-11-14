@@ -17,6 +17,7 @@ int main(){
 	// Initialises the variables to store the user defined parameters for the system
 	double satellite_altitude, diameter_laser, wavelength_laser;
 	float inner_scale_size;
+	int data_points;
 
 	// Sets up a stream for importing parameters from an input file
 	std::ifstream parameterFile;
@@ -29,6 +30,7 @@ int main(){
 	parameterFile >> dummy >> wavelength_laser;
 	parameterFile >> dummy >> inner_scale_size;
 	parameterFile >> dummy >> satellite_altitude;
+	parameterFile >> dummy >> data_points;
 	parameterFile.close();
 
 	// Defines our constants for the system
@@ -47,12 +49,15 @@ int main(){
 	dataFile.open("output_data", std::ios::out | std::ios::trunc);
 	dataFile << std::fixed << std::setprecision(20);
 
+	// Calculates number of iterations to perform
+	int iterations = 180*data_points;
+
 	// Loops through angles more than 30 degrees above the horizon, performing the turbulence simulation each time
 	#pragma omp parallel for private(angle, angle_degrees, beam_spread, beam_intensity, integrated_turbulence, satellite_distance)
-	for(int i = 0; i <= 18000; i+=1){
+	for(int i = 0; i <= iterations; ++i){
 
 		// Converts the angle to radians
-		angle_degrees = (float) (i / 100.0);
+		angle_degrees = (float)i / (float)data_points;
 		angle = angle_degrees * std::numbers::pi / 180.0;
 
 		// Calculate the effects of turbulence on the laser

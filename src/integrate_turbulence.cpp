@@ -2,7 +2,7 @@
 #include <cmath>
 #include <gsl/gsl_integration.h>
 #include "header.hpp"
-#include <iostream>
+#include "calculate_Cn2.cpp"
 
 // Creates a struct to store the parameters used in integration
 struct Params{
@@ -10,22 +10,6 @@ struct Params{
 	double R;
 	double theta;
 };
-
-// Defines the model for calculating the refractive index structure constant
-double calculate_Cn2(double x, double angle, double radius_earth, double satellite_distance){
-
-	// Calls the function to calculate the height above sea level
-	double H = calculate_height(angle, radius_earth, x);
-	// Defines the value of the refractive index structure constant at sea level
-	double Cn0 = 1.5e-15;
-	// Initialises the variable for storing the answer
-	double temp1, temp2, Cn2;
-
-	// Calculates the refractive index structure constant and returns the value
-	Cn2 = Cn0 * std::exp(-H/100);
-	std::cout << x << " " << Cn2 << std::endl;
-	return Cn2;
-}
 
 // Defines the form of the integrand
 double integrand(double x, void *p){
