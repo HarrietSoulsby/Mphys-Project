@@ -23,7 +23,7 @@ double integrand(double x, void *p){
 
 	// Performs the calculations that define the integrand and returns the result
 	double temp = 1 - (x / D);
-	output = temp * temp * calculate_Cn2(x, theta, R, D);
+	output = std::pow(temp, 5/3) * calculate_Cn2(x, theta, R, D);
 	return output;
 }
 
