@@ -11,8 +11,8 @@
 int main(){
 
 	// Defines the parameters we will calculate
-	float beam_spread, beam_intensity;
-	double integrated_turbulence, satellite_distance;
+	float beam_intensity_night, beam_intensity_day;
+	double integrated_turbulence_night, integrated_turbulence_day, satellite_distance;
 
 	// Initialises the variables to store the user defined parameters for the system
 	double satellite_altitude, diameter_laser, wavelength_laser;
@@ -53,7 +53,7 @@ int main(){
 	int iterations = 180*data_points;
 
 	// Loops through angles more than 30 degrees above the horizon, performing the turbulence simulation each time
-	#pragma omp parallel for private(angle, angle_degrees, beam_spread, beam_intensity, integrated_turbulence, satellite_distance)
+	#pragma omp parallel for private(angle, angle_degrees, beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance)
 	for(int i = 0; i <= iterations; ++i){
 
 		// Converts the angle to radians
@@ -62,14 +62,14 @@ int main(){
 
 		// Calculate the effects of turbulence on the laser
 		satellite_distance = calculate_satellite_distance(angle, radius_earth, radius_LEO); 
-		integrated_turbulence = integrate_turbulence(angle, radius_earth, satellite_distance);
-		beam_spread = calculate_beam_spread(satellite_distance, integrated_turbulence, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
-		beam_intensity = calculate_beam_intensity(satellite_distance, integrated_turbulence, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
-
+		integrated_turbulence_night = integrate_turbulence(angle, radius_earth, satellite_distance, 21, 1.7*(1e-14));
+		integrated_turbulence_day = integrate_turbulence(angle, radius_earth, satellite_distance, 57, 2.75*(1e-14));
+		beam_intensity_night = calculate_beam_intensity(satellite_distance, integrated_turbulence_night, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
+		beam_intensity_day = calculate_beam_intensity(satellite_distance, integrated_turbulence_day, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
 		// Outputs the calculated parameters to the datafile, along with the current angle in degrees
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << beam_spread << " " << beam_intensity << std::endl;
+			dataFile << angle_degrees << " " << beam_intensity_night << " " << beam_intensity_day << std::endl;
 		}
 
 	}

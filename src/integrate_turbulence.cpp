@@ -9,6 +9,8 @@ struct Params{
 	double D;
 	double R;
 	double theta;
+	double wind_speed;
+	double Cn2_0;
 };
 
 // Defines the form of the integrand
@@ -20,19 +22,21 @@ double integrand(double x, void *p){
 	double D = params->D;
 	double R = params->R;
 	double theta = params->theta;
+	double wind_speed = params->wind_speed;
+	double Cn2_0 = params->Cn2_0;
 
 	// Performs the calculations that define the integrand and returns the result
 	double temp = 1 - (x / D);
-	output = std::pow(temp, 5/3) * calculate_Cn2(x, theta, R, D);
+	output = std::pow(temp, 5/3) * calculate_Cn2(x, theta, R, D, wind_speed, Cn2_0);
 	return output;
 }
 
 // Defines the main function for integrating over the turbulence
-double integrate_turbulence(double angle, double radius_earth, double satellite_distance){
+double integrate_turbulence(double angle, double radius_earth, double satellite_distance, double wind_speed, double Cn2_0){
 
 	// Defines the variables to be used in the integration
 	double integrated_turbulence, error;
-	Params params = {satellite_distance, radius_earth, angle};
+	Params params = {satellite_distance, radius_earth, angle, wind_speed, Cn2_0};
 	
 	// Sets up the integration workspace
 	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(1000000);
