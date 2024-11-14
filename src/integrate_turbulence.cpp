@@ -17,14 +17,12 @@ double calculate_Cn2(double x, double angle, double radius_earth, double satelli
 	// Calls the function to calculate the height above sea level
 	double H = calculate_height(angle, radius_earth, x);
 	// Defines the value of the refractive index structure constant at sea level
-	double Cn0 = 1.5e-14;
+	double Cn0 = 1.5e-15;
 	// Initialises the variable for storing the answer
 	double temp1, temp2, Cn2;
 
 	// Calculates the refractive index structure constant and returns the value
-	temp1 = H/1000000.0;
-	temp2 = (288.0 - (0.0065*H*0.001)) / 288.0;
-	Cn2 = (Cn0 / (temp1*temp1*std::sqrt(temp1))) / (temp2*std::sqrt(temp2));
+	Cn2 = Cn0 * std::exp(-H/100);
 	std::cout << x << " " << Cn2 << std::endl;
 	return Cn2;
 }

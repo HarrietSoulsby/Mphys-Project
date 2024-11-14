@@ -44,15 +44,15 @@ int main(){
 
 	// Sets up a data file to write our outputs into
 	std::ofstream dataFile;
-	dataFile.open("output_data");
+	dataFile.open("output_data", std::ios::out | std::ios::trunc);
 	dataFile << std::fixed << std::setprecision(20);
 
 	// Loops through angles more than 30 degrees above the horizon, performing the turbulence simulation each time
 	#pragma omp parallel for private(angle, angle_degrees, beam_spread, beam_intensity, integrated_turbulence, satellite_distance)
-	for(int i = 3000; i <= 15000; i+=1){
+	for(int i = 0; i <= 18000; i+=1){
 
 		// Converts the angle to radians
-		angle_degrees = i / 100.0;
+		angle_degrees = (float) (i / 100.0);
 		angle = angle_degrees * std::numbers::pi / 180.0;
 
 		// Calculate the effects of turbulence on the laser
