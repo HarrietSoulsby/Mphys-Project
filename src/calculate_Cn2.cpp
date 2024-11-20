@@ -13,6 +13,6 @@ double calculate_Cn2(double x, double angle, double radius_earth, double satelli
 
 	// Calculates the refractive index structure constant and returns the value
 	temp = wind_speed / 27;
-	Cn2 = (5.94*(1e-53)*temp*temp*std::pow(H,10.0)*std::exp(-H/1000)) + (2.7*(1e-16)*std::exp(-H/1500)) + (Cn2_0*std::exp(-H/100));
+	Cn2 = (0.00594*temp*temp*std::exp(-H/1000.0)) + (2.7*(1e-16)*std::exp(-H/1500)) + (Cn2_0*std::pow(1/(H+1),4/3));
 	return Cn2;
 }
