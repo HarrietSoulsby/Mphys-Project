@@ -11,11 +11,10 @@
 int main(){
 
 	// Defines the parameters we will calculate
-	double beam_intensity_night, beam_intensity_day;
-	double integrated_turbulence_night, integrated_turbulence_day, satellite_distance;
+	double beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance, diffraction_transmissivity, extinction_transmissivity, total_transmissivity_day, total_transmissivity_night;
 
 	// Initialises the variables to store the user defined parameters for the system
-	double satellite_altitude, diameter_laser, wavelength_laser;
+	double satellite_altitude, diameter_laser, wavelength_laser, spot_size_laser;
 	float inner_scale_size;
 	int data_points;
 
@@ -31,6 +30,7 @@ int main(){
 	parameterFile >> dummy >> inner_scale_size;
 	parameterFile >> dummy >> satellite_altitude;
 	parameterFile >> dummy >> data_points;
+	parameterFile >> dummy >> spot_size_laser;
 	parameterFile.close();
 
 	// Defines our constants for the system
@@ -53,7 +53,7 @@ int main(){
 	int iterations = 180*data_points;
 
 	// Loops through angles more than 30 degrees above the horizon, performing the turbulence simulation each time
-	#pragma omp parallel for private(angle, angle_degrees, beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance)
+	#pragma omp parallel for private(angle, angle_degrees, beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance, diffraction_transmissivity, extinction_transmissivity, total_transmissivity_day, total_transmissivity_night)
 	for(int i = 0; i <= iterations; ++i){
 
 		// Converts the angle to radians
@@ -66,10 +66,17 @@ int main(){
 		integrated_turbulence_day = integrate_turbulence(angle, radius_earth, satellite_distance, 57, 2.75*(1e-14));
 		beam_intensity_night = calculate_beam_intensity(satellite_distance, integrated_turbulence_night, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
 		beam_intensity_day = calculate_beam_intensity(satellite_distance, integrated_turbulence_day, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
+		diffraction_transmissivity = calculate_diffraction_transmissivity(satellite_distance, wavelength_laser, spot_size_laser, diameter_laser);
+		extinction_transmissivity = calculate_extinction_transmissivity(angle, radius_earth, satellite_distance);
+
+		// Calculates the total transmissivity	
+		total_transmissivity_night = beam_intensity_night*diffraction_transmissivity*extinction_transmissivity;
+		total_transmissivity_day = beam_intensity_day*diffraction_transmissivity*extinction_transmissivity;
+
 		// Outputs the calculated parameters to the datafile, along with the current angle in degrees
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << beam_intensity_night << " " << beam_intensity_day << std::endl;
+			dataFile << angle_degrees << " " << total_transmissivity_night << " " << total_transmissivity_day << std::endl;
 		}
 
 	}

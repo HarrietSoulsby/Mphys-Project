@@ -10,7 +10,7 @@ double calculate_satellite_distance(double angle, double radius_earth, double ra
 
 	// Calculates the polar coordinates of the satellite in the frame with origin at the centre of the Earth
 	earth_frame_distance = radius_earth + radius_LEO;
-	earth_frame_angle = angle + std::asin((radius_earth * std::sin((std::numbers::pi/2) + angle)) / (radius_earth + radius_LEO));
+	earth_frame_angle = angle + std::asin((radius_earth * std::sin((std::numbers::pi/2.0) + angle)) / (radius_earth + radius_LEO));
 
 	// Transforms the coordinates of the satellite to cartesians in the reference frame of Alice on Earth's surface
 	alice_x = earth_frame_distance * std::cos(earth_frame_angle);

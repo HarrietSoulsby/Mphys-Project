@@ -4,3 +4,4 @@ wavelength_laser	1550e-9
 inner_scale_size	0.001
 satellite_altitude	100000
 data_points	100
+spot_size_laser	0.05
