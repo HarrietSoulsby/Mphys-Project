@@ -1,6 +1,6 @@
 // The parameters used to define the laser and the atmosphere in the simulation, as well as the number of data points per degree of elevation to generate - change as neccesary
-diameter_laser	10
+diameter_laser	100
 wavelength_laser	1550e-9
-inner_scale_size	0.005
+inner_scale_size	0.001
 satellite_altitude	100000
-data_points	10
+data_points	100

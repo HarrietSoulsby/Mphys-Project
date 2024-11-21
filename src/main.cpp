@@ -11,7 +11,7 @@
 int main(){
 
 	// Defines the parameters we will calculate
-	float beam_intensity_night, beam_intensity_day;
+	double beam_intensity_night, beam_intensity_day;
 	double integrated_turbulence_night, integrated_turbulence_day, satellite_distance;
 
 	// Initialises the variables to store the user defined parameters for the system
