@@ -64,8 +64,8 @@ int main(){
 		satellite_distance = calculate_satellite_distance(angle, radius_earth, radius_LEO); 
 		integrated_turbulence_night = integrate_turbulence(angle, radius_earth, satellite_distance, 21, 1.7*(1e-14));
 		integrated_turbulence_day = integrate_turbulence(angle, radius_earth, satellite_distance, 57, 2.75*(1e-14));
-		beam_intensity_night = calculate_beam_intensity(satellite_distance, integrated_turbulence_night, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
-		beam_intensity_day = calculate_beam_intensity(satellite_distance, integrated_turbulence_day, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
+		beam_intensity_night = calculate_turbulence_transmissivity(satellite_distance, integrated_turbulence_night, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
+		beam_intensity_day = calculate_turbulence_transmissivity(satellite_distance, integrated_turbulence_day, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
 		diffraction_transmissivity_day = calculate_diffraction_transmissivity(satellite_distance, wavelength_laser, spot_size_laser, diameter_laser, integrated_turbulence_day);
 		diffraction_transmissivity_night = calculate_diffraction_transmissivity(satellite_distance, wavelength_laser, spot_size_laser, diameter_laser, integrated_turbulence_night);
 		extinction_transmissivity = calculate_extinction_transmissivity(angle, radius_earth, satellite_distance);

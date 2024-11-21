@@ -1,6 +1,6 @@
 #include <cmath>
 
-double calculate_beam_intensity(double satellite_distance, double integrated_turbulence, double diameter_laser, double wavenumber_laser, double curvature_laser, float inner_scale_size){
+double calculate_turbulence_transmissivity(double satellite_distance, double integrated_turbulence, double diameter_laser, double wavenumber_laser, double curvature_laser, float inner_scale_size){
 
 	double beam_intensity;
 

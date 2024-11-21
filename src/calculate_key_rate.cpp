@@ -63,12 +63,6 @@ double calculate_key_rate(double n_st, double n_st_far, double n, float a_R, dou
 	// Numerically integrates the integrand function
 	int status = gsl_integration_qagiu(&F, 0.0, 1e-8, 1e-8, 1000, workspace, &delta_n, &error);
 
-	// Gives an error if the integration did not succeed
-	if (status != GSL_SUCCESS) {
-		std::cerr << "Integration failed: " << gsl_strerror(status) << std::endl;
-		delta_n = 0.0;
-	}
-
 	// Calculates the key rate
 	K = -1.0 * std::log2(1.0 - n) * (1.0 + ((n*delta_n) / (std::log(1.0 - n))));
 
