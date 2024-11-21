@@ -33,7 +33,7 @@ double key_integrand(double x, void *p){
 // 	n: total transmissibility
 // 	a_R: laser aperture
 // 	sigma2: measure of beam wander and widening
-double calculate_key_rate(double n_st, double n_st_far, double n, float a_R, double sigma2){
+double calculate_key_rate(double n_st, double w_st2, double n, float a_R, double sigma2){
 
 	// Defines variables to hold the calculated parameters
 	// 	K: key rate
@@ -41,7 +41,11 @@ double calculate_key_rate(double n_st, double n_st_far, double n, float a_R, dou
 	// 	f_0 and f_1: functions in terms of the Bessel functions used to define y and r_0
 	// 	delta_n: a correction factor to the key rate to account for beam wander
 	// 	error: used in integration to ensure convergence, see https://www.gnu.org/software/gsl/doc/html/integration.html
-	double K, y, r_0, f_0, f_1, delta_n, error;
+	// 	n_st_far: the short term far field approximation for the diffraction transmissivity
+	double K, y, r_0, f_0, f_1, delta_n, error, n_st_far;
+
+	// Calculates n_st_far
+	n_st_far = (2.0*a_R*a_R)/(w_st2);
 
 	// Calculates f_0 and f_1
 	f_0 = 1.0 / (1.0 - std::exp(-2.0 * n_st_far) * gsl_sf_bessel_In(0,2.0*n_st_far));
