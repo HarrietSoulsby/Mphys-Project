@@ -3,11 +3,11 @@ CC=g++
 # Libraries
 LIBS=-lstdc++ -lgsl -lgslcblas
 # Compilation flags
-CC_CFLAGS=-O3 -mtune=native -I./hdr -std=c++20 -fopenmp
+CC_CFLAGS=-O3 -mtune=native -I./hdr -std=c++20 -fopenmp -lmpfr -lgsl -lgslcblas -lm
 # Link flags
-CC_LDFLAGS= -lstdc++ -I./hdr -std=c++20 -fopenmp
+CC_LDFLAGS= -lstdc++ -I./hdr -std=c++20 -fopenmp -lmpfr -lgsl -lgslcblas -lm
 # Object (source) files
-OBJECTS= obj/main.o obj/calculate_satellite_distance.o obj/calculate_height.o obj/integrate_turbulence.o obj/calculate_turbulence_transmissivity.o obj/calculate_diffraction_transmissivity.o obj/calculate_extinction_transmissivity.o obj/calculate_key_rate.o
+OBJECTS= obj/main.o obj/calculate_Cn2.o obj/calculate_satellite_distance.o obj/calculate_delta_n.o obj/calculate_skr.o obj/calculate_diffraction.o obj/integrate_turbulence.o obj/calculate_extinction.o obj/calculate_height.o
 # Name of generated executable
 EXECUTABLE=exe
 # Compilation stuff - do not edit

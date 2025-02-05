@@ -7,20 +7,24 @@
 #include <iomanip>
 #include <omp.h>
 
-// Defines main
+// Begins the program
 int main(){
 
-	// Defines the parameters we will calculate
-	double beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance, diffraction_transmissivity_day, diffraction_transmissivity_night, extinction_transmissivity, total_transmissivity_day, total_transmissivity_night, key_rate_day, key_rate_night;
+	// Defines the variables which contain the user specified parameters of the system
+	SystemParameters system_params;
+	double satellite_altitude;
+	double data_points;
+	TurbulenceParameters atmosphere_day;
+	TurbulenceParameters atmosphere_night;
 
-	// Initialises the variables to store the user defined parameters for the system
-	double satellite_altitude, diameter_laser, wavelength_laser, spot_size_laser;
-	float inner_scale_size;
-	int data_points;
+	// Defines the variables related to the system's geometry which will change for each iteration
+	double angle;
+	double angle_degrees;
+	double satellite_distance;
 
-	// Initialises a structure to hold the results of the diffraction calculations
-	diffraction_parameters diffraction_day;
-	diffraction_parameters diffraction_night;
+	// Defines the variables for the final values of the secret key rate
+	double skr_day;
+	double skr_night;
 
 	// Sets up a stream for importing parameters from an input file
 	std::ifstream parameterFile;
@@ -29,70 +33,56 @@ int main(){
 	//Imports the parameters from the file
 	std::string dummy;
 	std::getline(parameterFile, dummy);
-	parameterFile >> dummy >> diameter_laser;
-	parameterFile >> dummy >> wavelength_laser;
-	parameterFile >> dummy >> inner_scale_size;
+	parameterFile >> dummy >> system_params.aperture_laser;
+	parameterFile >> dummy >> system_params.wavelength_laser;
+	parameterFile >> dummy >> system_params.inner_scale_size;
 	parameterFile >> dummy >> satellite_altitude;
 	parameterFile >> dummy >> data_points;
-	parameterFile >> dummy >> spot_size_laser;
+	parameterFile >> dummy >> system_params.spot_size_laser;
+	parameterFile >> dummy >> system_params.curvature_laser;
+	parameterFile >> dummy >> atmosphere_day.Cn2_0;
+	parameterFile >> dummy >> atmosphere_day.wind_speed;
+	parameterFile >> dummy >> atmosphere_night.Cn2_0;
+	parameterFile >> dummy >> atmosphere_night.wind_speed;
 	parameterFile.close();
 
-	// Defines our constants for the system
-	double radius_earth = 6371000;
-	double radius_LEO = radius_earth + satellite_altitude;
+	// Defines the distance of the satellite from the Earth's core
+	system_params.radius_LEO = 6371000.0 + satellite_altitude;
 
-	// Calculates the parameters for the laser
-	double wavenumber_laser = (2 * std::numbers::pi) / wavelength_laser;
-	double curvature_laser = 100;
+	// Calculates the wavenumber of the laser
+	system_params.wavenumber_laser = (2.0 * std::numbers::pi) / system_params.wavelength_laser;
 
-	// Defines the angle parameters we will er
-	double angle, angle_degrees;
-
-	// Sets up a data file to write our outputs into
+	// Sets up a data file to write the final values into
 	std::ofstream dataFile;
 	dataFile.open("output_data", std::ios::out | std::ios::trunc);
 	dataFile << std::fixed << std::setprecision(20);
 
-	// Calculates number of iterations to perform
+	// Calculates the number of iterations to perform based on the user specified required number of data points
 	int iterations = 180*data_points;
 
-	// Loops through angles between 0 and 180 degrees, performing the turbulence simulation each time
-	#pragma omp parallel for private(angle, angle_degrees, beam_intensity_night, beam_intensity_day, integrated_turbulence_night, integrated_turbulence_day, satellite_distance, diffraction_day, diffraction_night, extinction_transmissivity, total_transmissivity_day, total_transmissivity_night, key_rate_day, key_rate_night)
+	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
+	#pragma omp parallel for private(skr_day, skr_night, angle, angle_degrees, satellite_distance)
 	for(int i = 0; i <= iterations; ++i){
 
-		// Converts the angle to radians
-		angle_degrees = (float)i / (float)data_points;
+		// Determines the elevation angle to investigate for the current iteration
+		angle_degrees = (double)i / (double)data_points;
 		angle = angle_degrees * std::numbers::pi / 180.0;
 
-		// Calculate the effects of turbulence on the laser
-		satellite_distance = calculate_satellite_distance(angle, radius_earth, radius_LEO); 
-		integrated_turbulence_night = integrate_turbulence(angle, radius_earth, satellite_distance, 21, 1.7*(1e-14));
-		integrated_turbulence_day = integrate_turbulence(angle, radius_earth, satellite_distance, 57, 2.75*(1e-14));
-		beam_intensity_night = calculate_turbulence_transmissivity(satellite_distance, integrated_turbulence_night, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
-		beam_intensity_day = calculate_turbulence_transmissivity(satellite_distance, integrated_turbulence_day, diameter_laser, wavenumber_laser, curvature_laser, inner_scale_size);
-		diffraction_day = calculate_diffraction_transmissivity(satellite_distance, wavelength_laser, spot_size_laser, diameter_laser, integrated_turbulence_day);
-		diffraction_night = calculate_diffraction_transmissivity(satellite_distance, wavelength_laser, spot_size_laser, diameter_laser, integrated_turbulence_night);
-		extinction_transmissivity = calculate_extinction_transmissivity(angle, radius_earth, satellite_distance);
+		// Calculate the distance from Alice to the satellite
+		satellite_distance = calculate_satellite_distance(angle, system_params.radius_LEO); 
 
-		// Calculates the total transmissivity	
-		total_transmissivity_night = beam_intensity_night*diffraction_night.transmissivity*extinction_transmissivity;
-		total_transmissivity_day = beam_intensity_day*diffraction_day.transmissivity*extinction_transmissivity;
+		// Calculates the secret key rate during the day and at night
+		skr_day = calculate_skr(atmosphere_day, system_params, angle, satellite_distance);
+		skr_night = calculate_skr(atmosphere_night, system_params, angle, satellite_distance);
 
-		// Calculates the key rate
-		key_rate_day = calculate_key_rate(diffraction_day.transmissivity, diffraction_day.beam_spread, total_transmissivity_day, diameter_laser, diffraction_day.beam_wander);
-		key_rate_night = calculate_key_rate(diffraction_night.transmissivity, diffraction_day.beam_spread, total_transmissivity_night, diameter_laser, diffraction_night.beam_wander);
-
-		// Outputs the calculated parameters to the datafile, along with the current angle in degrees
+		// Outputs the calculated secret key rates to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << key_rate_night << " " << key_rate_day << std::endl;
+			dataFile << angle_degrees << " " << skr_day << " " << skr_night << std::endl;
 		}
 
 	}
 
-	// Closes the datafile
-	dataFile.close();
-
-	// End the program
+	// Ends the program
 	return 0;
 }
