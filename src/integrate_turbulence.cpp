@@ -4,7 +4,8 @@
 #include "header.hpp"
 
 // Defines a struct to store the parameters used in integration
-struct IntegrationParameters{
+struct IntegrationParameters
+{
 	double satellite_distance;
 	double angle;
 	double wind_speed;
@@ -12,8 +13,8 @@ struct IntegrationParameters{
 };
 
 // Defines the integrand function
-double turbulence_integrand(double x, void *p){
-
+double turbulence_integrand(double x, void *p)
+{
 	// Extracts the integration parameters from the struct
 	IntegrationParameters *int_params = (IntegrationParameters *)p;
 	double satellite_distance = int_params->satellite_distance;
@@ -27,8 +28,8 @@ double turbulence_integrand(double x, void *p){
 }
 
 // Begins the function
-double integrate_turbulence(const double angle, const double satellite_distance, const TurbulenceParameters atmosphere_params){
-
+double integrate_turbulence(const double angle, const double satellite_distance, const TurbulenceParameters atmosphere_params)
+{
 	// Defines the variables to store the integration result
 	double integrated_turbulence, error;
 

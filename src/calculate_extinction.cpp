@@ -4,13 +4,14 @@
 #include <gsl/gsl_integration.h>
 
 // Defines a struct to store the parameters used in integration
-struct IntegrationParameters{
+struct IntegrationParameters
+{
 	double angle;
 };
 
 // Defines the integrand function
-double extinction_integrand(double x, void *p){
-
+double extinction_integrand(double x, void *p)
+{
 	// Extracts the integration parameters from the struct
 	IntegrationParameters *int_params = (IntegrationParameters *)p;
 	double angle = int_params->angle;
@@ -20,8 +21,8 @@ double extinction_integrand(double x, void *p){
 }
 
 // Begins the function
-double calculate_extinction(const double angle, const double satellite_distance){
-
+double calculate_extinction(const double angle, const double satellite_distance)
+{
 	// Defines the variables to store the integration result
 	double transmissivity, error;	
 

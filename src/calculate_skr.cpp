@@ -2,11 +2,10 @@
 #include "header.hpp"
 #include <cmath>
 #include <gsl/gsl_sf_bessel.h>
-#include <iostream>
 
 // Begins the function
-double calculate_skr(const TurbulenceParameters atmosphere_params, const SystemParameters system_params, const double angle, const double satellite_distance){
-
+double calculate_skr(const TurbulenceParameters atmosphere_params, const SystemParameters system_params, const double angle, const double satellite_distance)
+{
 	// Calculates the turbulence accumulated over the path
 	double turbulence = integrate_turbulence(angle, satellite_distance, atmosphere_params);
 
@@ -23,15 +22,10 @@ double calculate_skr(const TurbulenceParameters atmosphere_params, const SystemP
 	double f_0 = 1.0 / (1.0 - (std::exp(-2.0 * n_st_far) * gsl_sf_bessel_I0(2.0 * n_st_far)));
 	double f_1 = std::exp(-2.0*n_st_far) * gsl_sf_bessel_I1(2.0 * n_st_far);
 
-	std::cout << transmissivity << " " << n_st_far << " " << f_0 << " " << f_1 << std::endl;
-
 	// Calculates geometry dependent positive parameters, used to calculate the SKR
 	double y = (4.0*n_st_far*f_0*f_1) / (std::log(2.0*diffraction.transmissivity*f_0));
 	double r_0 = system_params.aperture_laser / (std::pow(std::log(2.0*diffraction.transmissivity*f_0), 1.0/y));
 
-	// Calculates the correction factor to apply in the calculation of the SKR to account for random beam wander
-	double delta_n = calculate_delta_n(transmissivity, diffraction.beam_wander, y, r_0);
-
 	// Returns the secret key rate and ends the function
-	return -1.0 * std::log2(1.0 - transmissivity) * (1.0 + ((transmissivity * delta_n) / (std::log(1.0 - transmissivity))));
+	return -std::log2(1.0 - transmissivity) * (1.0 + ((transmissivity * calculate_delta_n(transmissivity, diffraction.beam_wander, y, r_0)) / (std::log(1.0 - transmissivity))));
 }

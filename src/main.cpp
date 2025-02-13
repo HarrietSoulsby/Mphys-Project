@@ -8,8 +8,8 @@
 #include <omp.h>
 
 // Begins the program
-int main(){
-
+int main()
+{
 	// Defines the variables which contain the user specified parameters of the system
 	SystemParameters system_params;
 	double satellite_altitude;
@@ -62,11 +62,13 @@ int main(){
 
 	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
 	#pragma omp parallel for private(skr_day, skr_night, angle, angle_degrees, satellite_distance)
-	for(int i = 0; i <= iterations; ++i){
-
+	for(int i = 0; i <= iterations; ++i)
+	{
 		// Determines the elevation angle to investigate for the current iteration
 		angle_degrees = (double)i / (double)data_points;
 		angle = angle_degrees * std::numbers::pi / 180.0;
+
+		std::cout << "Angle: " << angle_degrees << std::endl;
 
 		// Calculate the distance from Alice to the satellite
 		satellite_distance = calculate_satellite_distance(angle, system_params.radius_LEO); 
@@ -78,9 +80,8 @@ int main(){
 		// Outputs the calculated secret key rates to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << skr_day << " " << skr_night << std::endl;
+			dataFile << angle_degrees << " " << skr_day << " " << skr_night << " " << satellite_distance << std::endl;
 		}
-
 	}
 
 	// Ends the program
