@@ -10,7 +10,6 @@ struct SystemParameters{
 	double wavelength_laser;
 	double wavenumber_laser;
 	double spot_size_laser;
-	double curvature_laser;
 	double radius_LEO;
 	double inner_scale_size;
 };

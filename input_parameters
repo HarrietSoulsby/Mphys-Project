@@ -1,12 +1,11 @@
 // The parameters used to define the laser and the atmosphere in the simulation, as well as the number of data points per degree of elevation to generate - change as neccesary
-aperture_laser	1
+aperture_laser	1.0
 wavelength_laser	1550e-9
 inner_scale_size	0.001
-satellite_altitude	100000
+satellite_altitude	100000.0
 data_points	500
 spot_size_laser	0.01
-curvature_laser	1
 daytime_Cn2_0	1.7e-14
-daytime_windspeed	21
+daytime_windspeed	21.0
 nighttime_Cn2_0	2.75e-14
-nighttime_windspeed	57
+nighttime_windspeed	57.0

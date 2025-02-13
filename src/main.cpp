@@ -39,7 +39,6 @@ int main()
 	parameterFile >> dummy >> satellite_altitude;
 	parameterFile >> dummy >> data_points;
 	parameterFile >> dummy >> system_params.spot_size_laser;
-	parameterFile >> dummy >> system_params.curvature_laser;
 	parameterFile >> dummy >> atmosphere_day.Cn2_0;
 	parameterFile >> dummy >> atmosphere_day.wind_speed;
 	parameterFile >> dummy >> atmosphere_night.Cn2_0;
