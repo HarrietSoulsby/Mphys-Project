@@ -22,7 +22,7 @@ DiffractionParameters calculate_diffraction(const double turbulence, const doubl
 	double beam_widening = ( (4.0 * satellite_distance * satellite_distance) / (system_params.wavenumber_laser * system_params.wavenumber_laser * system_params.spot_size_laser * system_params.spot_size_laser) ) + ( system_params.spot_size_laser * system_params.spot_size_laser * temp * temp / 4.0 ) + ( 4.0 * satellite_distance * satellite_distance * std::pow(std::abs(1.0 - (0.62 * std::cbrt(coherence_length / system_params.spot_size_laser))), 6.0/5.0) / (system_params.wavenumber_laser * system_params.wavenumber_laser * coherence_length * coherence_length) );
 
 	// Calculates the beam wander, sigma^2 (see eq40 in Fante 1975)
-	double beam_wander = (4.3362 * satellite_distance * satellite_distance * satellite_distance * turbulence) / (std::cbrt(system_params.spot_size_laser)) + (1.0e-12 * satellite_distance * satellite_distance);
+	double beam_wander = (4.3362 * satellite_distance * satellite_distance * satellite_distance * turbulence) / (std::cbrt(system_params.spot_size_laser)) + (system_params.pointing_error_laser * satellite_distance * satellite_distance);
 
 	// Calculates the diffraction induced transmissivity
 	double transmissivity = 1.0 - std::exp(-2.0 * system_params.aperture_laser * system_params.aperture_laser / beam_widening);

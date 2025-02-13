@@ -5,6 +5,8 @@ inner_scale_size	0.001
 satellite_altitude	100000.0
 data_points	500
 spot_size_laser	0.01
+point_error_laser	1.0e-12
+detector_efficiency	0.4
 daytime_Cn2_0	1.7e-14
 daytime_windspeed	21.0
 nighttime_Cn2_0	2.75e-14

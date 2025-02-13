@@ -13,7 +13,7 @@ double calculate_skr(const TurbulenceParameters atmosphere_params, const SystemP
 	DiffractionParameters diffraction = calculate_diffraction(turbulence, satellite_distance, system_params);
 
 	// Calculates the total transmissivity for the laser
-	double transmissivity = 0.4 * diffraction.transmissivity * calculate_extinction(angle, satellite_distance);
+	double transmissivity = system_params.detector_efficiency * diffraction.transmissivity * calculate_extinction(angle, satellite_distance);
 
 	// Calculates the short term far field approximation for the diffraction transmissivity
 	double n_st_far = (2.0*system_params.aperture_laser*system_params.aperture_laser)/(diffraction.beam_widening);

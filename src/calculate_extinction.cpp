@@ -38,7 +38,7 @@ double calculate_extinction(const double angle, const double satellite_distance)
 	F.params = &int_params;
 
 	// Integrates the function
-	gsl_integration_qags(&F, 1, satellite_distance, 1e-4, 1e-4, 50000, workspace, &transmissivity, &error);
+	gsl_integration_qags(&F, 1.0, satellite_distance, 1e-12, 1e-12, 50000, workspace, &transmissivity, &error);
 	gsl_integration_workspace_free(workspace);
 
 	// Returns the result and ends the function

@@ -10,8 +10,10 @@ struct SystemParameters{
 	double wavelength_laser;
 	double wavenumber_laser;
 	double spot_size_laser;
+	double pointing_error_laser;
 	double satellite_altitude;
 	double inner_scale_size;
+	double detector_efficiency;
 };
 
 // Stores the constants characterising the turbulence of the system, which will vary between daytime and nighttime
