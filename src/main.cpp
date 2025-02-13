@@ -68,8 +68,6 @@ int main()
 		angle_degrees = (double)i / (double)data_points;
 		angle = angle_degrees * std::numbers::pi / 180.0;
 
-		std::cout << "Angle: " << angle_degrees << std::endl;
-
 		// Calculate the distance from Alice to the satellite
 		satellite_distance = calculate_satellite_distance(angle, system_params.radius_LEO); 
 

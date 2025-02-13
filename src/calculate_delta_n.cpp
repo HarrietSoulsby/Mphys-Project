@@ -2,7 +2,6 @@
 #include "header.hpp"
 #include <cmath>
 #include <gsl/gsl_integration.h>
-#include <iostream>
 
 // Defines a struct for holding the parameters used in integration
 struct IntegrationParameters
@@ -24,7 +23,6 @@ double delta_n_integrand(double x, void *p)
 	double r_0 = int_params->r_0;
 
 	// Returns the value of the integrand at x
-	std::cout << x << "\t" << std::exp((-r_0 * r_0 * std::pow(x, 2.0 / y) / (2.0 * beam_wander)) - x) / (1.0 - (std::exp(-x) * transmissivity)) << std::endl;
 	return std::exp((-r_0 * r_0 * std::pow(x, 2.0 / y) / (2.0 * beam_wander)) - x) / (1.0 - (std::exp(-x) * transmissivity));
 }
 
@@ -38,13 +36,13 @@ double calculate_delta_n(const double transmissivity, const double beam_wander, 
 	IntegrationParameters int_params = {transmissivity, beam_wander, y, r_0};
 
 	// Sets up the integration workspace, function, and parameters
-	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(500000);
+	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(1000000);
 	gsl_function F;
 	F.function = &delta_n_integrand;
 	F.params = &int_params;
 	
 	// Numerically integrates to find delta_n
-	int status = gsl_integration_qagiu(&F, 0.0, 1e-8, 1e-8, 500000, workspace, &delta_n, &error);
+	int status = gsl_integration_qagiu(&F, 0.0, 1e-14, 1e-14, 1000000, workspace, &delta_n, &error);
 
 	// Returns delta_n and ends the function
 	return delta_n;

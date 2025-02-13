@@ -2,7 +2,6 @@
 #include "header.hpp"
 #include <numbers>
 #include <cmath>
-#include <iostream>
 
 // Begins the function
 DiffractionParameters calculate_diffraction(const double turbulence, const double satellite_distance, const SystemParameters system_params)
@@ -24,9 +23,6 @@ DiffractionParameters calculate_diffraction(const double turbulence, const doubl
 
 	// Calculates the beam wander, sigma^2 (see eq40 in Fante 1975)
 	double beam_wander = (4.3362 * satellite_distance * satellite_distance * satellite_distance * turbulence) / (std::cbrt(system_params.spot_size_laser)) + (1.0e-12 * satellite_distance * satellite_distance);
-
-	std::cout << "Beam widening: " << std::sqrt(beam_widening) << std::endl;
-	std::cout << "Beam wander: " << std::sqrt(beam_wander) << std::endl;
 
 	// Calculates the diffraction induced transmissivity
 	double transmissivity = 1.0 - std::exp(-2.0 * system_params.aperture_laser * system_params.aperture_laser / beam_widening);
