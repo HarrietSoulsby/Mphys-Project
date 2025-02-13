@@ -10,7 +10,7 @@ struct SystemParameters{
 	double wavelength_laser;
 	double wavenumber_laser;
 	double spot_size_laser;
-	double radius_LEO;
+	double satellite_altitude;
 	double inner_scale_size;
 };
 

@@ -30,7 +30,7 @@ double calculate_extinction(const double angle, const double satellite_distance)
 	IntegrationParameters int_params = {angle};
 
 	// Creates the integration worksspace
-	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(500000);
+	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(50000);
 	gsl_function F;
 
 	// Defines the integrand and parameters to be used in the integration

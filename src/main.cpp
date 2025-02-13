@@ -12,7 +12,6 @@ int main()
 {
 	// Defines the variables which contain the user specified parameters of the system
 	SystemParameters system_params;
-	double satellite_altitude;
 	double data_points;
 	TurbulenceParameters atmosphere_day;
 	TurbulenceParameters atmosphere_night;
@@ -36,7 +35,7 @@ int main()
 	parameterFile >> dummy >> system_params.aperture_laser;
 	parameterFile >> dummy >> system_params.wavelength_laser;
 	parameterFile >> dummy >> system_params.inner_scale_size;
-	parameterFile >> dummy >> satellite_altitude;
+	parameterFile >> dummy >> system_params.satellite_altitude;
 	parameterFile >> dummy >> data_points;
 	parameterFile >> dummy >> system_params.spot_size_laser;
 	parameterFile >> dummy >> atmosphere_day.Cn2_0;
@@ -45,16 +44,13 @@ int main()
 	parameterFile >> dummy >> atmosphere_night.wind_speed;
 	parameterFile.close();
 
-	// Defines the distance of the satellite from the Earth's core
-	system_params.radius_LEO = 6371000.0 + satellite_altitude;
-
 	// Calculates the wavenumber of the laser
 	system_params.wavenumber_laser = (2.0 * std::numbers::pi) / system_params.wavelength_laser;
 
 	// Sets up a data file to write the final values into
 	std::ofstream dataFile;
 	dataFile.open("output_data", std::ios::out | std::ios::trunc);
-	dataFile << std::fixed << std::setprecision(20);
+	dataFile << std::fixed << std::setprecision(40);
 
 	// Calculates the number of iterations to perform based on the user specified required number of data points
 	int iterations = 180*data_points;
@@ -68,7 +64,7 @@ int main()
 		angle = angle_degrees * std::numbers::pi / 180.0;
 
 		// Calculate the distance from Alice to the satellite
-		satellite_distance = calculate_satellite_distance(angle, system_params.radius_LEO); 
+		satellite_distance = calculate_satellite_distance(angle, system_params.satellite_altitude); 
 
 		// Calculates the secret key rate during the day and at night
 		skr_day = calculate_skr(atmosphere_day, system_params, angle, satellite_distance);
@@ -77,7 +73,7 @@ int main()
 		// Outputs the calculated secret key rates to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << skr_day << " " << skr_night << " " << satellite_distance << std::endl;
+			dataFile << angle_degrees << " " << skr_day << " " << skr_night << std::endl;
 		}
 	}
 

@@ -36,13 +36,13 @@ double calculate_delta_n(const double transmissivity, const double beam_wander, 
 	IntegrationParameters int_params = {transmissivity, beam_wander, y, r_0};
 
 	// Sets up the integration workspace, function, and parameters
-	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(1000000);
+	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(50000);
 	gsl_function F;
 	F.function = &delta_n_integrand;
 	F.params = &int_params;
 	
 	// Numerically integrates to find delta_n
-	int status = gsl_integration_qagiu(&F, 0.0, 1e-14, 1e-14, 1000000, workspace, &delta_n, &error);
+	int status = gsl_integration_qagiu(&F, 0.0, 1e-14, 1e-14, 50000, workspace, &delta_n, &error);
 
 	// Returns delta_n and ends the function
 	return delta_n;

@@ -37,7 +37,7 @@ double integrate_turbulence(const double angle, const double satellite_distance,
 	IntegrationParameters int_params = {satellite_distance, angle, atmosphere_params.wind_speed, atmosphere_params.Cn2_0};
 
 	// Creates the integration worksspace
-	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(500000);
+	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(50000);
 	gsl_function F;
 
 	// Defines the integrand and parameters to be used in the integration
@@ -45,7 +45,7 @@ double integrate_turbulence(const double angle, const double satellite_distance,
 	F.params = &int_params;
 
 	// Numerically integrates the function
-	gsl_integration_qags(&F, 1, satellite_distance, 1e-14, 1e-14, 500000, workspace, &integrated_turbulence, &error);
+	gsl_integration_qags(&F, 1.0, satellite_distance, 1e-14, 1e-14, 50000, workspace, &integrated_turbulence, &error);
 	gsl_integration_workspace_free(workspace);
 
 	// Returns the integrated turbulence divided by a prefactor
