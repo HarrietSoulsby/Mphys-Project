@@ -13,17 +13,17 @@ int main()
 	// Defines the variables which contain the user specified parameters of the system
 	SystemParameters system_params;
 	double data_points;
-	TurbulenceParameters atmosphere_day;
-	TurbulenceParameters atmosphere_night;
+	TimeofdayParameters params_day;
+	TimeofdayParameters params_night;
 
 	// Defines the variables related to the system's geometry which will change for each iteration
 	double angle;
 	double angle_degrees;
 	double satellite_distance;
 
-	// Defines the variables for the final values of the secret key rate
-	double skr_day;
-	double skr_night;
+	// Defines the structs which will store the final outputs of the program
+	OutputParameters outputs_day;
+	OutputParameters outputs_night;
 
 	// Sets up a stream for importing parameters from an input file
 	std::ifstream parameterFile;
@@ -36,14 +36,22 @@ int main()
 	parameterFile >> dummy >> system_params.wavelength_laser;
 	parameterFile >> dummy >> system_params.inner_scale_size;
 	parameterFile >> dummy >> system_params.satellite_altitude;
-	parameterFile >> dummy >> data_points;
 	parameterFile >> dummy >> system_params.spot_size_laser;
 	parameterFile >> dummy >> system_params.pointing_error_laser;
 	parameterFile >> dummy >> system_params.detector_efficiency;
-	parameterFile >> dummy >> atmosphere_day.Cn2_0;
-	parameterFile >> dummy >> atmosphere_day.wind_speed;
-	parameterFile >> dummy >> atmosphere_night.Cn2_0;
-	parameterFile >> dummy >> atmosphere_night.wind_speed;
+	parameterFile >> dummy >> system_params.setup_noise;
+	parameterFile >> dummy >> system_params.spectral_filter;
+	parameterFile >> dummy >> system_params.detection_time;
+	parameterFile >> dummy >> system_params.fov_detector;
+	parameterFile >> dummy >> params_day.Cn2_0;
+	parameterFile >> dummy >> params_day.wind_speed;
+	parameterFile >> dummy >> params_day.albedo_parameter;
+	parameterFile >> dummy >> params_day.spectral_irradiance;
+	parameterFile >> dummy >> params_night.Cn2_0;
+	parameterFile >> dummy >> params_night.wind_speed;
+	parameterFile >> dummy >> params_night.albedo_parameter;
+	parameterFile >> dummy >> params_night.spectral_irradiance;
+	parameterFile >> dummy >> data_points;
 	parameterFile.close();
 
 	// Calculates the wavenumber of the laser
@@ -58,7 +66,7 @@ int main()
 	int iterations = 180*data_points;
 
 	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
-	#pragma omp parallel for private(skr_day, skr_night, angle, angle_degrees, satellite_distance)
+	#pragma omp parallel for private(outputs_day, outputs_night, angle, angle_degrees, satellite_distance)
 	for(int i = 0; i <= iterations; ++i)
 	{
 		// Determines the elevation angle to investigate for the current iteration
@@ -68,14 +76,14 @@ int main()
 		// Calculate the distance from Alice to the satellite
 		satellite_distance = calculate_satellite_distance(angle, system_params.satellite_altitude); 
 
-		// Calculates the secret key rate during the day and at night
-		skr_day = calculate_skr(atmosphere_day, system_params, angle, satellite_distance);
-		skr_night = calculate_skr(atmosphere_night, system_params, angle, satellite_distance);
+		// Calculates the total transmissivity of the channel, the PLOB bound, and the secret key rate during the day and at night
+		outputs_day = calculate_system_parameters(params_day, system_params, angle, satellite_distance);
+		outputs_night = calculate_system_parameters(params_night, system_params, angle, satellite_distance);
 
-		// Outputs the calculated secret key rates to a file
+		// Outputs the calculated values to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << skr_day << " " << skr_night << std::endl;
+			dataFile << angle_degrees << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << std::endl;
 		}
 	}
 
