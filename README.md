@@ -17,20 +17,20 @@ The default configuration in the file 'input_parameters' should be physically re
 | inner_scale_size   | The size of the smallest turbulent eddies in the free space channel   | m   |
 | satellite_altitude   | The height of the satellite above sea level   | m   |
 | spot_size_laser   | The waist size of the laser after leaving the transmitter   | m   |
-| pointing_error_laser   | The beam wander induced by errors in aiming the transmitter, squared   | m^(2)   |
+| pointing_error_laser   | The beam wander induced by errors in aiming the transmitter, squared   | m<sup>2<\sup>   |
 | detector_efficiency   | The proportion of photons registered by the detector   | Unitless   |
 | setup_noise   | The photon noise intrinsic to the detector, (potentially) considered trusted   | Unitless   |
 | spectral_filter   | The size of the wavelength range allowed by the filter   | m   |
 | detection_time   | The time taken to make a single detection   | s   |
 | fov_detector   | The field of view of the detector   | sr   |
-| daytime_Cn2_0   | The refractive index structure constant at ground level during daytime   | m^(-2/3)   |
+| daytime_Cn2_0   | The refractive index structure constant at ground level during daytime   | m<sup>-2/3</sup>   |
 | daytime_windspeed   | The high altitude wind speed near the transmitter during daytime   | m/s   |
 | daytime_albedo_parameter   | Dimensionless parameter that depends on the geometry and albedos of the Earth and Moon, during the day   | Unitless   |
-| daytime_spectral_irradiance   | Describes the number of photons from the Sun at the relevant wavelength   | photons m^(-2) s^(-1) nm^(-1) sr^(-1)   |
-| nighttime_Cn2_0   | The refractive index structure constant at ground level during nighttime   | m^(-2/3)   |
+| daytime_spectral_irradiance   | Describes the number of photons from the Sun at the relevant wavelength   | photons m<sup>-2</sup> s<sup>-1</sup> nm<sup>-1</sup> sr<sup>-1</sup>   |
+| nighttime_Cn2_0   | The refractive index structure constant at ground level during nighttime   | m<sup>-2/3</sup>   |
 | nighttime_windspeed   | The high altitude wind speed near the transmitter during nighttime   | m/s   |
 | nighttime_albedo_parameter   | Dimensionless parameter that depends on the geometry and albedos of the Earth and Moon, during the day   | Unitless   |
-| nighttime_spectral_irradiance   | Describes the number of photons from the Moon at the relevant wavelength   | photons m^(-2) s^(-1) nm^(-1) sr^(-1)   |
+| nighttime_spectral_irradiance   | Describes the number of photons from the Moon at the relevant wavelength   | photons m<sup>-2</sup> s<sup>-1</sup> nm<sup>-1</sup> sr<sup>-1</sup>   |
 | data_points   | The number of data points per degree to calculate   | Unitless   |
 
 ## Outputs
