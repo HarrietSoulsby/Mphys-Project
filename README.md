@@ -17,7 +17,7 @@ The default configuration in the file 'input_parameters' should be physically re
 | inner_scale_size   | The size of the smallest turbulent eddies in the free space channel   | m   |
 | satellite_altitude   | The height of the satellite above sea level   | m   |
 | spot_size_laser   | The waist size of the laser after leaving the transmitter   | m   |
-| pointing_error_laser   | The beam wander induced by errors in aiming the transmitter, squared   | m<sup>2<\sup>   |
+| pointing_error_laser   | The beam wander induced by errors in aiming the transmitter, squared   | m<sup>2</sup>   |
 | detector_efficiency   | The proportion of photons registered by the detector   | Unitless   |
 | setup_noise   | The photon noise intrinsic to the detector, (potentially) considered trusted   | Unitless   |
 | spectral_filter   | The size of the wavelength range allowed by the filter   | m   |
