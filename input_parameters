@@ -2,7 +2,7 @@
 aperture_laser	0.5
 wavelength_laser	1550e-9
 inner_scale_size	0.001
-satellite_altitude	100000.0
+satellite_altitude	100e+3
 spot_size_laser	0.01
 pointing_error_laser	1.0e-12
 detector_efficiency	0.4
@@ -16,6 +16,6 @@ daytime_albedo_parameter	0.3
 daytime_spectral_irradiance	2.73e+18
 nighttime_Cn2_0	2.75e-14
 nighttime_windspeed	57.0
-nighttime_albedo_parameters	7.36e-7
+nighttime_albedo_parameter	7.36e-7
 nighttime_spectral_irradiance	1.24e+11
 data_points	100
