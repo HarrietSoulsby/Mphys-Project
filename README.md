@@ -4,6 +4,8 @@ This program was created for my masters project "Ground To Space Satellite Optic
 
 ## Installation
 
+Install the following dependencies: g++ (https://gcc.gnu.org/), and the GNU Scientific Library (https://www.gnu.org/software/gsl/)
+
 Simply clone the repository, open the terminal in that directory, and run 'make'. This will generate an executable which can be run using './exe'.
 
 ## Configuration
