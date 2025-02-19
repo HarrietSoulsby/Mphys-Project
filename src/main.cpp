@@ -1,7 +1,5 @@
 // Import neccessary libraries
 #include "header.hpp"
-#include <iostream>
-#include <cmath>
 #include <numbers>
 #include <fstream>
 #include <iomanip>

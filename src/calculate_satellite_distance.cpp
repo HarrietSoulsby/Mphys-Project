@@ -1,6 +1,5 @@
 // Imports neccesary libraries
 #include <cmath>
-#include <numbers>
 
 // Begins the function
 double calculate_satellite_distance(const double angle, const double radius_LEO)
