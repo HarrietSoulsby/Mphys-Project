@@ -20,6 +20,6 @@ OutputParameters calculate_system_parameters(const TimeofdayParameters time_para
 	// Calculates the secret key rate
 	double SKR = calculate_skr(transmissivity, PLOB_bound, system_params, time_params);
 
-	// Returns the transmissivity, PLOB bound, and secret key rate
-	return {transmissivity, PLOB_bound, SKR};
+	// Returns the transmissivity (in db), PLOB bound, and secret key rate
+	return {10.0 * std::log10(transmissivity), PLOB_bound, SKR};
 }
