@@ -13,6 +13,7 @@ struct SystemParameters
 	double spot_size_laser;
 	double pointing_error_laser;
 	double satellite_altitude;
+	double satellite_velocity;
 	double inner_scale_size;
 	double detector_efficiency;
 	double setup_noise;

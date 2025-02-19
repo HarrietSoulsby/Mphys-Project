@@ -39,10 +39,10 @@ The default configuration in the file 'input_parameters' should be physically re
 
 After running the program, a file named 'output_data' is generated, containing the following tab separated collumns:
 
-| Elevation Angle (degrees) | Satellite Distance (m) | Daytime Transmissivity (Unitless) | Nighttime Transmissivity (Unitless) | Daytime PLOB Bound (bits/use) | Nighttime PLOB Bound (bits/use) | Daytime SKR (bits/use) | Nighttime SKR (bits/use) |
-|----------|----------|----------|----------|----------|----------|----------|----------|
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| Elevation Angle (degrees) | Time (s) | Satellite Distance (m) | Daytime Transmissivity (Unitless) | Nighttime Transmissivity (Unitless) | Daytime PLOB Bound (bits/use) | Nighttime PLOB Bound (bits/use) | Daytime SKR (bits/use) | Nighttime SKR (bits/use) |
+|----------|----------|----------|----------|----------|----------|----------|----------|----------|
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
 
 These may be tabulated or plotted using software such as excel, matplotlib, or gnuplot.

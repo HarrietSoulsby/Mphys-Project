@@ -1,6 +1,7 @@
 // Import neccessary libraries
 #include "header.hpp"
 #include <numbers>
+#include <cmath>
 #include <fstream>
 #include <iomanip>
 #include <omp.h>
@@ -18,6 +19,7 @@ int main()
 	double angle;
 	double angle_degrees;
 	double satellite_distance;
+	double time;
 
 	// Defines the structs which will store the final outputs of the program
 	OutputParameters outputs_day;
@@ -55,6 +57,9 @@ int main()
 	// Calculates the wavenumber of the laser
 	system_params.wavenumber_laser = (2.0 * std::numbers::pi) / system_params.wavelength_laser;
 
+	// Calculates the tangential velocity of the satellite
+	system_params.satellite_velocity = std::sqrt(3.986e+14 / (system_params.satellite_altitude + 6.371e+6));
+
 	// Sets up a data file to write the final values into
 	std::ofstream dataFile;
 	dataFile.open("output_data", std::ios::out | std::ios::trunc);
@@ -63,8 +68,11 @@ int main()
 	// Calculates the number of iterations to perform based on the user specified required number of data points
 	int iterations = 180*data_points;
 
+	// Calculates an offset to the time so that t=0s corresponds to angle=0^r
+	double time_offset = std::asin(calculate_satellite_distance(-std::numbers::pi, system_params.satellite_altitude) / (system_params.satellite_altitude + 6.371e+6));
+
 	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
-	#pragma omp parallel for private(outputs_day, outputs_night, angle, angle_degrees, satellite_distance)
+	#pragma omp parallel for private(outputs_day, outputs_night, angle, angle_degrees, satellite_distance, time) shared(system_params, params_day, params_night)
 	for(int i = 0; i <= iterations; ++i)
 	{
 		// Determines the elevation angle to investigate for the current iteration
@@ -74,6 +82,9 @@ int main()
 		// Calculate the distance from Alice to the satellite
 		satellite_distance = calculate_satellite_distance(angle, system_params.satellite_altitude); 
 
+		// Calculates the time taken for the satellite to reach the current angle from the horizon
+		time = (system_params.satellite_altitude + 6.371e+6) * (std::asin(satellite_distance * std::cos(angle) / (system_params.satellite_altitude + 6.371e+6)) + time_offset) / system_params.satellite_velocity;
+
 		// Calculates the total transmissivity of the channel, the PLOB bound, and the secret key rate during the day and at night
 		outputs_day = calculate_system_parameters(params_day, system_params, angle, satellite_distance);
 		outputs_night = calculate_system_parameters(params_night, system_params, angle, satellite_distance);
@@ -81,7 +92,7 @@ int main()
 		// Outputs the calculated values to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << std::endl;
+			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << std::endl;
 		}
 	}
 
