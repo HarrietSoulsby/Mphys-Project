@@ -5,7 +5,6 @@
 // Begins the function
 double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params, const TimeofdayParameters time_params)
 {
-
 	// Calculates gamma_R (used in subsequent calculations)
 	double gamma_R = system_params.spectral_filter * system_params.detection_time * system_params.fov_detector * system_params.aperture_laser * system_params.aperture_laser;
 

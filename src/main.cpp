@@ -29,7 +29,7 @@ int main()
 	std::ifstream parameterFile;
 	parameterFile.open("input_parameters");
 
-	//Imports the parameters from the file
+	// Imports the parameters from the file
 	std::string dummy;
 	std::getline(parameterFile, dummy);
 	parameterFile >> dummy >> system_params.aperture_laser;
