@@ -20,6 +20,10 @@ struct SystemParameters
 	double spectral_filter;
 	double detection_time;
 	double fov_detector;
+	double latitude;
+	double CO2_concentration;
+	double air_temperature;
+	double air_pressure;
 };
 
 struct OutputParameters
@@ -57,7 +61,7 @@ double calculate_Cn2(const double distance, const double angle, const double sat
 
 double calculate_height(const double distance, const double angle);
 
-double calculate_extinction(const double angle, const double satellite_distance);
+double calculate_extinction(const double angle, const SystemParameters system_params);
 
 double calculate_delta_n(const double transmissivity, const double beam_wander, const double y, const double r_0);
 

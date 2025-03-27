@@ -12,7 +12,7 @@ OutputParameters calculate_system_parameters(const TimeofdayParameters time_para
 	DiffractionParameters diffraction = calculate_diffraction(turbulence, satellite_distance, system_params);
 
 	// Calculates the total transmissivity for the laser
-	double transmissivity = system_params.detector_efficiency * diffraction.transmissivity * calculate_extinction(angle, satellite_distance);
+	double transmissivity = system_params.detector_efficiency * diffraction.transmissivity * calculate_extinction(angle, system_params);
 
 	// Calculates the PLOB bound
 	double PLOB_bound = calculate_PLOB(transmissivity, diffraction, system_params);

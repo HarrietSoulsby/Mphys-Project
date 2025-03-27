@@ -51,6 +51,10 @@ int main()
 	parameterFile >> dummy >> params_night.wind_speed;
 	parameterFile >> dummy >> params_night.albedo_parameter;
 	parameterFile >> dummy >> params_night.spectral_irradiance;
+	parameterFile >> dummy >> system_params.latitude;
+	parameterFile >> dummy >> system_params.CO2_concentration;
+	parameterFile >> dummy >> system_params.air_temperature;
+	parameterFile >> dummy >> system_params.air_pressure;
 	parameterFile >> dummy >> data_points;
 	parameterFile.close();
 
