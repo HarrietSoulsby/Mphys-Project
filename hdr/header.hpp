@@ -24,22 +24,23 @@ struct SystemParameters
 	double CO2_concentration;
 	double air_temperature;
 	double air_pressure;
-};
-
-struct OutputParameters
-{
-	double transmissivity;
-	double PLOB_bound;
-	double SKR;
-};
-
-// Stores the constants characterising the turbulence of the system, which will vary between daytime and nighttime
-struct TimeofdayParameters
-{ 
 	double Cn2_0;
 	double wind_speed;
 	double albedo_parameter;
 	double spectral_irradiance;
+};
+
+struct OutputParameters
+{
+	double total_transmissivity;
+	double PLOB_bound;
+	double SKR;
+	double scintillation;
+	double diffraction_transmissivity;
+	double beam_widening;
+	double beam_wander;
+	double coherence_length;
+	double extinction_transmissivity;
 };
 
 // Stores the calculated values of parameters determined by the turbulence
@@ -51,11 +52,11 @@ struct DiffractionParameters
 };
 
 // Functions
-OutputParameters calculate_system_parameters(const TimeofdayParameters time_params, const SystemParameters params, const double angle, const double satellite_distance);
+OutputParameters calculate_system_parameters(const SystemParameters params, const double angle, const double satellite_distance);
 
 double calculate_satellite_distance(const double angle, const double radius_LEO);
 
-double integrate_turbulence(const double angle, const double satellite_distance, const TimeofdayParameters time_params);
+double integrate_turbulence(const double angle, const double satellite_distance, const SystemParameters params);
 
 double calculate_Cn2(const double distance, const double angle, const double satellite_distance, const double wind_speed, const double Cn2_0);
 
@@ -69,7 +70,9 @@ DiffractionParameters calculate_diffraction(const double turbulence, const doubl
 
 double calculate_PLOB(const double transmissivity, const DiffractionParameters diffraction, const SystemParameters system_params);
 
-double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params, TimeofdayParameters time_params);
+double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params);
+
+double calculate_scintillation(const double angle, const double satellite_distance, const SystemParameters system_params);
 
 // End header guard
 #endif

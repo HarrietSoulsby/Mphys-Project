@@ -28,13 +28,13 @@ double turbulence_integrand(double x, void *p)
 }
 
 // Begins the function
-double integrate_turbulence(const double angle, const double satellite_distance, const TimeofdayParameters time_params)
+double integrate_turbulence(const double angle, const double satellite_distance, const SystemParameters params)
 {
 	// Defines the variables to store the integration result
 	double integrated_turbulence, error;
 
 	// Creates the struct containing the variables which need to be passed into the integral
-	IntegrationParameters int_params = {satellite_distance, angle, time_params.wind_speed, time_params.Cn2_0};
+	IntegrationParameters int_params = {satellite_distance, angle, params.wind_speed, params.Cn2_0};
 
 	// Creates the integration worksspace
 	gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(50000);

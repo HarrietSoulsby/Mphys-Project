@@ -12,8 +12,6 @@ int main()
 	// Defines the variables which contain the user specified parameters of the system
 	SystemParameters system_params;
 	double data_points;
-	TimeofdayParameters params_day;
-	TimeofdayParameters params_night;
 
 	// Defines the variables related to the system's geometry which will change for each iteration
 	double angle;
@@ -22,8 +20,7 @@ int main()
 	double time;
 
 	// Defines the structs which will store the final outputs of the program
-	OutputParameters outputs_day;
-	OutputParameters outputs_night;
+	OutputParameters outputs;
 
 	// Sets up a stream for importing parameters from an input file
 	std::ifstream parameterFile;
@@ -43,14 +40,10 @@ int main()
 	parameterFile >> dummy >> system_params.spectral_filter;
 	parameterFile >> dummy >> system_params.detection_time;
 	parameterFile >> dummy >> system_params.fov_detector;
-	parameterFile >> dummy >> params_day.Cn2_0;
-	parameterFile >> dummy >> params_day.wind_speed;
-	parameterFile >> dummy >> params_day.albedo_parameter;
-	parameterFile >> dummy >> params_day.spectral_irradiance;
-	parameterFile >> dummy >> params_night.Cn2_0;
-	parameterFile >> dummy >> params_night.wind_speed;
-	parameterFile >> dummy >> params_night.albedo_parameter;
-	parameterFile >> dummy >> params_night.spectral_irradiance;
+	parameterFile >> dummy >> system_params.Cn2_0;
+	parameterFile >> dummy >> system_params.wind_speed;
+	parameterFile >> dummy >> system_params.albedo_parameter;
+	parameterFile >> dummy >> system_params.spectral_irradiance;
 	parameterFile >> dummy >> system_params.latitude;
 	parameterFile >> dummy >> system_params.CO2_concentration;
 	parameterFile >> dummy >> system_params.air_temperature;
@@ -76,7 +69,7 @@ int main()
 	double time_offset = std::asin(calculate_satellite_distance(-std::numbers::pi, system_params.satellite_altitude) / (system_params.satellite_altitude + 6.371e+6));
 
 	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
-	#pragma omp parallel for private(outputs_day, outputs_night, angle, angle_degrees, satellite_distance, time) shared(system_params, params_day, params_night)
+	#pragma omp parallel for private(outputs, angle, angle_degrees, satellite_distance, time) shared(system_params, params_day, params_night)
 	for(int i = 0; i <= iterations; ++i)
 	{
 		// Determines the elevation angle to investigate for the current iteration
@@ -90,13 +83,14 @@ int main()
 		time = (system_params.satellite_altitude + 6.371e+6) * (std::asin(satellite_distance * std::cos(angle) / (system_params.satellite_altitude + 6.371e+6)) + time_offset) / system_params.satellite_velocity;
 
 		// Calculates the total transmissivity of the channel, the PLOB bound, and the secret key rate during the day and at night
-		outputs_day = calculate_system_parameters(params_day, system_params, angle, satellite_distance);
-		outputs_night = calculate_system_parameters(params_night, system_params, angle, satellite_distance);
+		outputs = calculate_system_parameters(system_params, angle, satellite_distance);
 
 		// Outputs the calculated values to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << std::endl;
+			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << " " << outputs_day.scintillation << " " << outputs_night.scintillation << std::endl;
+			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs.total_transmissivity << " " << outputs.PLOB_bound << " " << outputs.SKR << " " << outputs.scintillation << " " << outputs.diffraction_transmissivity << " " << outputs.beam_widening << " " << outputs.beam_wander << " " << ourputs.coherence_length << " " << outputs.extinction_transmissivity << std::endl;
+
 		}
 	}
 

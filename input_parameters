@@ -1,6 +1,6 @@
 // The parameters used to define the laser and the atmosphere in the simulation, as well as the number of data points per degree of elevation to generate - change as neccesary
 aperture_laser	0.5
-wavelength_laser	1000e-9
+wavelength_laser	1550e-9
 inner_scale_size	0.001
 satellite_altitude	100e+3
 spot_size_laser	0.01
@@ -22,4 +22,4 @@ latitude	0.0
 CO2_concentration	400.0
 air_temperature	288.15
 air_pressure	1013.25
-data_points	1
+data_points	5

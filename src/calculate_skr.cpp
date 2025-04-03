@@ -3,14 +3,14 @@
 #include <cmath>
 
 // Begins the function
-double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params, const TimeofdayParameters time_params)
+double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params)
 {
 
 	// Calculates gamma_R (used in subsequent calculations)
 	double gamma_R = system_params.spectral_filter * system_params.detection_time * system_params.fov_detector * system_params.aperture_laser * system_params.aperture_laser;
 
 	// Calculates the background noise entering the detector's aperture
-	double background_noise = time_params.albedo_parameter * time_params.spectral_irradiance * gamma_R;
+	double background_noise = system_params.albedo_parameter * system_params.spectral_irradiance * gamma_R;
 
 	// Calculates the total noise recorded by the detector
 	double detected_noise = (system_params.detector_efficiency * background_noise) + system_params.setup_noise;
