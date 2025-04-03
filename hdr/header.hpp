@@ -12,29 +12,20 @@ struct SystemParameters
 	double wavenumber_laser;
 	double spot_size_laser;
 	double pointing_error_laser;
-	double satellite_altitude;
-	double satellite_velocity;
-	double inner_scale_size;
 	double detector_efficiency;
-	double setup_noise;
-	double spectral_filter;
-	double detection_time;
-	double fov_detector;
+	double inner_scale_size;
 	double latitude;
 	double CO2_concentration;
 	double air_temperature;
 	double air_pressure;
 	double Cn2_0;
 	double wind_speed;
-	double albedo_parameter;
-	double spectral_irradiance;
 };
 
 struct OutputParameters
 {
 	double total_transmissivity;
 	double PLOB_bound;
-	double SKR;
 	double scintillation;
 	double diffraction_transmissivity;
 	double beam_widening;
@@ -69,8 +60,6 @@ double calculate_delta_n(const double transmissivity, const double beam_wander, 
 DiffractionParameters calculate_diffraction(const double turbulence, const double satellite_distance, const SystemParameters system_params);
 
 double calculate_PLOB(const double transmissivity, const DiffractionParameters diffraction, const SystemParameters system_params);
-
-double calculate_skr(const double transmissivity, const double PLOB_bound, const SystemParameters system_params);
 
 double calculate_scintillation(const double angle, const double satellite_distance, const SystemParameters system_params);
 
