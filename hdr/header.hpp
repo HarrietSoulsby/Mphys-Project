@@ -10,6 +10,7 @@ struct SystemParameters
 	double aperture_laser;
 	double wavelength_laser;
 	double wavenumber_laser;
+	double satellite_altitude;
 	double spot_size_laser;
 	double pointing_error_laser;
 	double detector_efficiency;
