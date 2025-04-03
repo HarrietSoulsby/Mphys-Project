@@ -25,24 +25,24 @@ The default configuration in the file 'input_parameters' should be physically re
 | spectral_filter   | The size of the wavelength range allowed by the filter   | m   |
 | detection_time   | The time taken to make a single detection   | s   |
 | fov_detector   | The field of view of the detector   | sr   |
-| daytime_Cn2_0   | The refractive index structure constant at ground level during daytime   | m<sup>-2/3</sup>   |
-| daytime_windspeed   | The high altitude wind speed near the transmitter during daytime   | m/s   |
-| daytime_albedo_parameter   | Dimensionless parameter that depends on the geometry and albedos of the Earth and Moon, during the day   | Unitless   |
-| daytime_spectral_irradiance   | Describes the number of photons from the Sun at the relevant wavelength   | photons m<sup>-2</sup> s<sup>-1</sup> nm<sup>-1</sup> sr<sup>-1</sup>   |
-| nighttime_Cn2_0   | The refractive index structure constant at ground level during nighttime   | m<sup>-2/3</sup>   |
-| nighttime_windspeed   | The high altitude wind speed near the transmitter during nighttime   | m/s   |
-| nighttime_albedo_parameter   | Dimensionless parameter that depends on the geometry and albedos of the Earth and Moon, during the day   | Unitless   |
-| nighttime_spectral_irradiance   | Describes the number of photons from the Moon at the relevant wavelength   | photons m<sup>-2</sup> s<sup>-1</sup> nm<sup>-1</sup> sr<sup>-1</sup>   |
+| Cn2_0   | The refractive index structure constant at ground level   | m<sup>-2/3</sup>   |
+| windspeed   | The high altitude wind speed near the transmitter   | m/s   |
+| albedo_parameter   | Dimensionless parameter that depends on the geometry and albedos of the Earth and Moon   | Unitless   |
+| spectral_irradiance   | Describes the number of photons from the Sun at the relevant wavelength per unit area   | photons m<sup>-2</sup> s<sup>-1</sup> nm<sup>-1</sup> sr<sup>-1</sup>   |
+| latitude   | The latitude at which the transmitter is located on the Earth's surface   | degrees   |
+| CO2_concentration   | The concentration of carbon dioxide in the atmosphere   | ppm   |
+| air_temperature   | The thermodynamic temperature of the air at the receiver   | K   |
+| air_pressure   | The pressure of the air at the receiver   | mb   |
 | data_points   | The number of data points per degree to calculate   | Unitless   |
 
 ## Outputs
 
 After running the program, a file named 'output_data' is generated, containing the following tab separated collumns:
 
-| Elevation Angle (degrees) | Time (s) | Satellite Distance (m) | Daytime Transmissivity (Unitless) | Nighttime Transmissivity (Unitless) | Daytime PLOB Bound (bits/use) | Nighttime PLOB Bound (bits/use) | Daytime SKR (bits/use) | Nighttime SKR (bits/use) |
-|----------|----------|----------|----------|----------|----------|----------|----------|----------|
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| Elevation Angle (degrees) | Time (s) | Satellite Distance (m) | Total Transmissivity (Unitless) | PLOB Bound (bits/use) | SKR (bits/use) | Scintillation Flux Variance (Unitless) | Diffraction Transmissivity (unitless) | Beam Widening (m) | Mean Beam Wander Distance (m) | Coherence Length (m) | Extinction Transmissivity (unitless) |
+|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
 
 These may be tabulated or plotted using software such as excel, matplotlib, or gnuplot.

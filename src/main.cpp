@@ -88,9 +88,7 @@ int main()
 		// Outputs the calculated values to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs_day.transmissivity << " " << outputs_night.transmissivity << " " << outputs_day.PLOB_bound << " " << outputs_night.PLOB_bound << " " << outputs_day.SKR << " " << outputs_night.SKR << " " << outputs_day.scintillation << " " << outputs_night.scintillation << std::endl;
 			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs.total_transmissivity << " " << outputs.PLOB_bound << " " << outputs.SKR << " " << outputs.scintillation << " " << outputs.diffraction_transmissivity << " " << outputs.beam_widening << " " << outputs.beam_wander << " " << ourputs.coherence_length << " " << outputs.extinction_transmissivity << std::endl;
-
 		}
 	}
 
