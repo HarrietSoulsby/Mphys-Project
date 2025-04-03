@@ -69,7 +69,7 @@ int main()
 	double time_offset = std::asin(calculate_satellite_distance(-std::numbers::pi, system_params.satellite_altitude) / (system_params.satellite_altitude + 6.371e+6));
 
 	// Loops through angles between 0 and 180 degrees, performing the turbulence calculations each time
-	#pragma omp parallel for private(outputs, angle, angle_degrees, satellite_distance, time) shared(system_params, params_day, params_night)
+	#pragma omp parallel for private(outputs, angle, angle_degrees, satellite_distance, time) shared(system_params, time_offset)
 	for(int i = 0; i <= iterations; ++i)
 	{
 		// Determines the elevation angle to investigate for the current iteration
@@ -88,7 +88,7 @@ int main()
 		// Outputs the calculated values to a file
 		#pragma omp critical
 		{
-			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs.total_transmissivity << " " << outputs.PLOB_bound << " " << outputs.SKR << " " << outputs.scintillation << " " << outputs.diffraction_transmissivity << " " << outputs.beam_widening << " " << outputs.beam_wander << " " << ourputs.coherence_length << " " << outputs.extinction_transmissivity << std::endl;
+			dataFile << angle_degrees << " " << time << " " << satellite_distance << " " << outputs.total_transmissivity << " " << outputs.PLOB_bound << " " << outputs.SKR << " " << outputs.scintillation << " " << outputs.diffraction_transmissivity << " " << outputs.beam_widening << " " << outputs.beam_wander << " " << outputs.coherence_length << " " << outputs.extinction_transmissivity << std::endl;
 		}
 	}
 
