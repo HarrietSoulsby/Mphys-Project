@@ -4,13 +4,14 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include <omp.h>
 
 // Begins the program
 int main()
 {
 	// Defines the variables which contain the user specified parameters of the system
 	SystemParameters system_params;
-	double data_points;
+	int data_points;
 	double max_altitude;
 	double angle;
 	double satellite_distance;
@@ -50,7 +51,8 @@ int main()
 	dataFile << std::fixed << std::setprecision(40);
 
 	// Loops through all wavelengths of the laser between 100nm and 2000nm, performing the turbulence calculations each time
-	for(int i = (100.0*data_points); i <= (2000.0*data_points); ++i)
+#pragma omp parallel for shared(data_points, angle, satellite_distance) private(outputs) firstprivate(system_params)
+	for(int i = (100*data_points); i <= (2000*data_points); ++i)
 	{
 		// Calculates the wavelength and wavenumber of the laser for this iteration
 		system_params.wavelength_laser = (double) (i / data_points) * 1.0e-9;
