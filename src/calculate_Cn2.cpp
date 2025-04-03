@@ -8,7 +8,26 @@ double calculate_Cn2(const double distance, const double angle, const double sat
 	// Calculates the height above sea level at the current distance along the path
 	double height = calculate_height(distance, angle);
 
-	// Returns the refractive index structure constant
-	double temp = wind_speed / 27.0;
-	return (0.00594*temp*temp*std::pow(height/(1.0e+5),10)*std::exp(-height/1000.0)) + (2.7e-16*std::exp(-height/1500.0)) + (Cn2_0*std::pow(1.0/(height+1.0),4.0/3.0));
+	// Calculates the refractive index structure constant using the SLC model
+	if(height <= 18.5)
+	{
+		return 8.40e-15;
+	}
+	else if(height > 18.5 && height <= 110.0)
+	{
+		return 2.87e-12 / (height*height);
+	}
+	else if(height > 110.0 && height <= 1500.0)
+	{
+		return 2.5e-16;
+	}
+	else if(height > 1500.0 && height <= 7200.0)
+	{
+		return 8.87e-7 / (height*height*height);
+	}
+	else
+	{
+		return 2.00e-16 / std::sqrt(height);
+	}
+
 }
