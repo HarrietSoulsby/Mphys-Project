@@ -14,7 +14,7 @@ The default configuration in the file 'input_parameters' should be physically re
 
 | Input parameter | Description | Units |
 |----------|----------|----------|
-| aperture_laser   | The aperture of the laser's receiver   | m   |
+| aperture_laser   | The aperture of the satellite's laser receiver   | m   |
 | wavelength_laser   | The wavelength of the laser   | m   |
 | inner_scale_size   | The size of the smallest turbulent eddies in the free space channel   | m   |
 | satellite_altitude   | The height of the satellite above sea level   | m   |
