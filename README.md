@@ -14,7 +14,7 @@ The default configuration in the file 'input_parameters' should be physically re
 
 | Input parameter | Description | Units |
 |----------|----------|----------|
-| aperture_laser   | The aperture of the laser's receiver   | m   |
+| wavelength_laser   | The wavelength of the laser   | m   |
 | satellite_altitude   | The height of the satellite above sea level   | m   |
 | inner_scale_size   | The size of the smallest turbulent eddies in the free space channel   | m   |
 | spot_size_laser   | The waist size of the laser after leaving the transmitter   | m   |
@@ -33,7 +33,7 @@ The default configuration in the file 'input_parameters' should be physically re
 
 After running the program, a file named 'output_data' is generated, containing the following tab separated collumns:
 
-| Laser Wavelength (m) | Total Transmissivity (Unitless) | PLOB Bound (bits/use) | Scintillation Flux Variance (Unitless) | Diffraction Transmissivity (unitless) | Beam Widening (m) | Mean Beam Wander Distance (m) | Coherence Length (m) | Extinction Transmissivity (unitless) |
+| Receiver Aperture (m) | Total Transmissivity (Unitless) | PLOB Bound (bits/use) | Scintillation Flux Variance (Unitless) | Diffraction Transmissivity (unitless) | Beam Widening (m) | Mean Beam Wander Distance (m) | Coherence Length (m) | Extinction Transmissivity (unitless) |
 |----------|----------|----------|----------|----------|----------|----------|----------|----------|
 | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
 | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
